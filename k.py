@@ -1,3 +1,24 @@
+خب خب خب
+گرفتم
+
+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
+
+اینم راهنما
+
+curl https://openrouter.ai/api/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer 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" \
+  -d '{
+  "model": "openai/gpt-4o",
+  "messages": [
+    {
+      "role": "user",
+      "content": "What is the meaning of life?"
+    }
+  ]
+}'
+
+میتونم حالا با تو پروژم استفادش کنم؟؟
 
 import sqlite3
 import requests
