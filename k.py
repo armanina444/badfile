@@ -251,7 +251,6 @@ async def my_offenses(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(f"{count}")
 
 async def status(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """نمایش وضعیت ربات در گروه - فقط برای مالک"""
     user = update.message.from_user
     if not is_owner(user.username):
         await update.message.reply_text("شما دسترسی ندارید.")
@@ -266,38 +265,20 @@ def main():
     init_db()
     app = Application.builder().token(TOKEN).build()
     
-    # دستورات - فقط مالک میتونه استفاده کنه
+    # دستورات
     app.add_handler(CommandHandler("enable", enable))
     app.add_handler(CommandHandler("disable", disable))
     app.add_handler(CommandHandler("status", status))
-    app.add_handler(CommandHandler("offenses", my_offenses))  # همه میتونن ببینن
+    app.add_handler(CommandHandler("offenses", my_offenses))
     
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     app.add_handler(ChatMemberHandler(on_join, ChatMemberHandler.CHAT_MEMBER))
     
+    # ارسال خودکار فکت هر 4 ساعت
     app.job_queue.run_repeating(send_fact_to_all, interval=14400, first=30)
     
     print(f"شروع شد. مالک: @{OWNER_USERNAME}")
     app.run_polling(allowed_updates=Update.ALL_TYPES)
 
 if __name__ == "__main__":
-    main()                messages=[
-                    {"role": "user", "content": prompt}
-                ],
-                temperature=0.1,  # برای دقت بالاتر
-                max_tokens=10
-            )
-        )
-        
-        result = response.choices[0].message.content.strip()
-        
-        # بررسی اینکه نتیجه معتبر است
-        if result in ["1", "0", "null"]:
-            return result
-        return "null"
-        
-    except Exception as e:
-        print(f"Error in classification: {e}")
-        return "null"
-
-# بقیه کدهای شما (handle_message, main) به همین صورت می‌مانند...
+    main()
