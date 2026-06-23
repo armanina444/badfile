@@ -1,3 +1,5 @@
+
+
 import sqlite3
 import ssl
 import asyncio
@@ -26,7 +28,7 @@ OWNER_USERNAME = "armansdz"
 # غیرفعال کردن SSL
 ssl._create_default_https_context = ssl._create_unverified_context
 
-# کلاینت OpenRouter با مدل رایگان
+# کلاینت OpenRouter
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
     api_key=OPENROUTER_API_KEY,
@@ -106,7 +108,7 @@ Output ONLY one word:
         response = await asyncio.get_event_loop().run_in_executor(
             None,
             lambda: client.chat.completions.create(
-                model="openrouter/free",  # مدل رایگان
+                model="google/gemma-4-26b-a4b:free",
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.1,
                 max_tokens=10
@@ -139,15 +141,14 @@ Generate ONLY the response, no explanations:
         response = await asyncio.get_event_loop().run_in_executor(
             None,
             lambda: client.chat.completions.create(
-                model="openrouter/free",  # مدل رایگان
+                model="google/gemma-4-26b-a4b:free",
                 messages=[{"role": "user", "content": prompt}],
                 temperature=1.0,
                 max_tokens=120
             )
         )
         return response.choices[0].message.content.strip()
-    except Exception as e:
-        print(f"Response error: {e}")
+    except:
         return f"@{username}، پیامت پاک شد."
 
 # 3. تولید فکت نظامی آمریکا/اسرائیل - کاملاً AI
@@ -159,25 +160,30 @@ Generate a SHORT, IMPRESSIVE fact about US or Israeli military power.
 RULES:
 - Must be TRUE and SPECIFIC
 - Include numbers (equipment, budget, personnel, etc.)
-- MAXIMUM 15 words
+- MAXIMUM 10 words
 - Persian language
 - Be IMPRESSIVE and STUNNING
+
+EXAMPLES OF GOOD FACTS:
+"ناوگان هواپیمابر آمریکا 11 ناو هسته‌ای داره"
+"گنبد آهنین اسرائیل 90٪ موشک‌ها رو منهدم میکنه"
+"بودجه نظامی آمریکا 800 میلیارد دلاره"
+"اسرائیل 200 کلاهک هسته‌ای داره"
 
 Generate a UNIQUE, FRESH fact NOW:
 """
         response = await asyncio.get_event_loop().run_in_executor(
             None,
             lambda: client.chat.completions.create(
-                model="openrouter/free",  # مدل رایگان
+                model="google/gemma-4-26b-a4b:free",
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.9,
-                max_tokens=80
+                max_tokens=60
             )
         )
         return response.choices[0].message.content.strip()
-    except Exception as e:
-        print(f"Military fact error: {e}")
-        return "نیروی هوایی آمریکا 13,000 هواپیمای جنگی دارد"
+    except:
+        return "نیروی هوایی آمریکا 13,000 هواپیمای جنگی داره"
 
 # 4. تولید فکت درباره بدبختی ایران - کاملاً AI
 async def generate_iran_failure_fact() -> str:
@@ -188,25 +194,30 @@ Generate a SHORT, HUMILIATING fact about Iran's failure/weakness/economic collap
 RULES:
 - Must be TRUE and SPECIFIC
 - Include numbers or specific details
-- MAXIMUM 15 words
+- MAXIMUM 10 words
 - Persian language
 - Be DEVASTATING and HUMILIATING
+
+EXAMPLES OF GOOD FACTS:
+"اقتصاد ایران 40٪ سقوط کرده"
+"میلیون‌ها ایرانی مهاجرت کردن"
+"ریال ایران 90٪ ارزشش رو از دست داده"
+"هزاران دانشمند ایرانی فرار کردن"
 
 Generate a UNIQUE, FRESH fact NOW:
 """
         response = await asyncio.get_event_loop().run_in_executor(
             None,
             lambda: client.chat.completions.create(
-                model="openrouter/free",  # مدل رایگان
+                model="google/gemma-4-26b-a4b:free",
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.9,
-                max_tokens=80
+                max_tokens=60
             )
         )
         return response.choices[0].message.content.strip()
-    except Exception as e:
-        print(f"Iran fact error: {e}")
-        return "اقتصاد ایران در 5 سال 40٪ کوچک شده است"
+    except:
+        return "اقتصاد ایران در 5 سال 40٪ کوچک شده"
 
 # 5. ترکیب فکت با فحش - کاملاً AI
 async def generate_savage_fact() -> str:
@@ -236,16 +247,15 @@ Generate:
         response = await asyncio.get_event_loop().run_in_executor(
             None,
             lambda: client.chat.completions.create(
-                model="openrouter/free",  # مدل رایگان
+                model="google/gemma-4-26b-a4b:free",
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.7,
                 max_tokens=60
             )
         )
         return response.choices[0].message.content.strip()
-    except Exception as e:
-        print(f"Savage fact error: {e}")
-        return "خوار کصه، اقتصاد ایران نابود شده است!"
+    except:
+        return "خوار کصه، نیروی هوایی آمریکا 13,000 هواپیما داره!"
 
 # ============ هندلرها ============
 
